@@ -22,7 +22,8 @@ import {
   Users,
   Briefcase,
   TrendingUp,
-  Award
+  Award,
+  Warehouse
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -38,7 +39,7 @@ export default function Home() {
   const [logoError, setLogoError] = useState(false);
 
   const stats = [
-    { label: 'Asset Valuation', value: '₹8,500+ Cr', icon: TrendingUp },
+    { label: 'Asset Valuation', value: '₹8.5+ Cr', icon: TrendingUp },
     { label: 'Global Projects', value: '70+', icon: Building2 },
     { label: 'Workers', value: '20+', icon: Globe2 },
     { label: 'Operational Hubs', value: '', icon: Database }
@@ -109,12 +110,12 @@ export default function Home() {
             className="flex flex-col items-start gap-8"
           >
             {/* Live status badge */}
-            <div className="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl">
-              <span className="relative flex h-2 w-2">
+            <div className="flex items-center gap-3 px-3 md:px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl w-fit max-w-[90vw]">
+              <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-amber opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-amber" />
               </span>
-              <span className="text-[9px] font-black tracking-[0.4em] uppercase text-slate-300">Master Infrastructure Protocol v3.0  —  Live</span>
+              <span className="text-[8px] md:text-[9px] font-black tracking-widest md:tracking-[0.4em] uppercase text-slate-300 break-words leading-tight">Master Infrastructure Protocol v3.0  —  Live</span>
             </div>
 
             {/* Official Logo */}
@@ -270,35 +271,36 @@ export default function Home() {
                </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-12">
                {[
                  { title: 'Mining Infrastructure', icon: Building2, image: '/images/mining.png', code: 'PRO-01', desc: 'Deep-core extraction setup and master site infrastructure.' },
                  { title: 'Mega Construction', icon: HardHat, image: '/images/construction.png', code: 'PRO-02', desc: 'Civil engineering for SEZs, industrial plants, and utility grids.' },
-                 { title: 'Global Logistics', icon: Truck, image: '/images/logistics.png', code: 'PRO-03', desc: 'Secure heavy-haul multimodal transport networks.' }
+                 { title: 'Global Logistics', icon: Truck, image: '/images/logistics.png', code: 'PRO-03', desc: 'Secure heavy-haul multimodal transport networks.' },
+                 { title: 'Warehouse Solutions', icon: Warehouse, image: '/images/logistics.png', code: 'PRO-04', desc: 'State-of-the-art warehousing and cold-chain storage across strategic hubs.' },
                ].map((service, i) => (
                  <motion.div 
                    key={i}
-                   whileHover={{ y: -20 }}
-                   className="group relative h-[500px] md:h-[700px] overflow-hidden rounded-[2rem] md:rounded-[3rem] glass-panel p-0 border-white/5"
+                   whileHover={{ y: -16 }}
+                   className="group relative h-[480px] md:h-[600px] xl:h-[700px] overflow-hidden rounded-[2rem] glass-panel p-0 border-white/5"
                  >
                    <Image src={service.image} alt={service.title} fill className="object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 md:opacity-30" />
                    <div className="absolute inset-0 bg-gradient-to-t from-primary-deep via-primary-deep/60 to-transparent mix-blend-multiply" />
                    <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/90 via-primary-deep/40 to-transparent" />
                    
-                   <div className="absolute top-12 left-12 flex items-center justify-between w-[calc(100%-6rem)]">
+                   <div className="absolute top-8 left-8 flex items-center justify-between w-[calc(100%-4rem)]">
                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-accent-amber">{service.code}</span>
-                      <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 group-hover:border-accent-amber group-hover:text-accent-amber transition-all">
-                         <ChevronRight size={20} />
+                      <div className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/20 group-hover:border-accent-amber group-hover:text-accent-amber transition-all">
+                         <ChevronRight size={18} />
                       </div>
                    </div>
 
-                   <div className="absolute bottom-0 left-0 w-full p-16 space-y-8">
-                      <service.icon className="text-accent-amber mb-4" size={56} />
-                      <h3 className="text-4xl font-black uppercase tracking-tight leading-none italic">{service.title}</h3>
-                      <p className="text-sm font-bold text-slate-400 uppercase tracking-wider leading-relaxed pr-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                   <div className="absolute bottom-0 left-0 w-full p-8 xl:p-12 space-y-6">
+                      <service.icon className="text-accent-amber mb-2" size={48} />
+                      <h3 className="text-3xl xl:text-4xl font-black uppercase tracking-tight leading-none italic">{service.title}</h3>
+                      <p className="text-sm font-bold text-slate-400 uppercase tracking-wider leading-relaxed pr-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                          {service.desc}
                       </p>
-                      <Link href={`/services/initiation?type=${encodeURIComponent(service.title)}`} className="btn-primary w-full justify-center py-5 uppercase text-[10px] tracking-[0.4em]">
+                      <Link href={`/services/initiation?type=${encodeURIComponent(service.title)}`} className="btn-primary w-full justify-center py-4 uppercase text-[10px] tracking-[0.4em]">
                          Initialize Protocol
                       </Link>
                    </div>

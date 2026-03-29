@@ -27,6 +27,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
     "@types/pdfkit": "^0.17.5",
     "@types/react": "^19",
