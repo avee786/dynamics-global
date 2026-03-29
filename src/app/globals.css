@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-deep: #05070A;
+  --color-primary-slate: #111827;
+  --color-accent-amber: #F59E0B;
+}
+
+:root {
+  --foreground-rgb: 248, 250, 252;
+  --background-start-rgb: 5, 7, 10;
+  --background-end-rgb: 2, 4, 8;
+  
+  --accent-amber: #F59E0B;
+}
+
+@layer base {
+  body {
+    @apply bg-primary-deep text-slate-200 selection:bg-accent-amber/30 leading-relaxed;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-white font-black tracking-tighter;
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-gray-900/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)];
+  }
+  
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/5 rounded-xl p-8 hover:bg-white/[0.07] transition-all;
+  }
+  
+  .btn-primary {
+    @apply bg-accent-amber text-primary-deep px-10 py-4 rounded-full font-black tracking-widest uppercase transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)] active:scale-95 flex items-center gap-2;
+  }
+  
+  .section-title {
+    @apply text-6xl md:text-8xl font-black tracking-tighter mb-12 bg-gradient-to-br from-white via-white to-gray-500 bg-clip-text text-transparent uppercase;
+  }
+  
+  .input-field {
+    @apply w-full bg-white/5 border-2 border-white/5 rounded-xl px-6 py-4 text-white outline-none focus:border-accent-amber/50 focus:bg-white/[0.07] transition-all duration-300 placeholder:text-slate-600 font-bold;
+  }
+}
+
+.animate-snap-in {
+  animation: snapIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes snapIn {
+  from { opacity: 0; transform: scale(0.98) translateY(30px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Scrollbar Refusal */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-primary-deep;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-white/20 hover:bg-white/40 transition-all rounded-full;
+}
+
+/* Custom Utilities */
+.text-gradient {
+  @apply bg-gradient-to-r from-white to-accent-amber bg-clip-text text-transparent;
+}

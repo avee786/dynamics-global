@@ -1,0 +1,222 @@
+[
+  {
+    "id": "PRJ-2024-100",
+    "title": "Warehouse Development Phase I",
+    "client": "srs Enterprises",
+    "status": "Pending Approval",
+    "budget": "₹1.24 Cr",
+    "location": "Gujarat, India",
+    "startDate": "2024-02-25",
+    "progress": "0%",
+    "summary": "Comprehensive warehouse development for srs Enterprises."
+  },
+  {
+    "id": "PRJ-2023-101",
+    "title": "Silo Construction Phase I",
+    "client": "Akrita infa",
+    "status": "Ongoing",
+    "budget": "₹75 Lakhs",
+    "location": "Tamil Nadu, India",
+    "startDate": "2023-01-14",
+    "progress": "50%",
+    "summary": "Comprehensive silo construction for Akrita infa."
+  },
+  {
+    "id": "PRJ-2024-102",
+    "title": "Earthmoving Operations Phase II",
+    "client": "RNR Constructions",
+    "status": "Ongoing",
+    "budget": "₹87 Lakhs",
+    "location": "Odisha, India",
+    "startDate": "2024-04-11",
+    "progress": "15%",
+    "summary": "Comprehensive earthmoving operations for RNR Constructions."
+  },
+  {
+    "id": "PRJ-2023-103",
+    "title": "Warehouse Development Phase III",
+    "client": "Nithya Enterprises",
+    "status": "Completed",
+    "budget": "₹60 Lakhs",
+    "location": "Odisha, India",
+    "startDate": "2023-02-14",
+    "progress": "100%",
+    "summary": "Comprehensive warehouse development for Nithya Enterprises."
+  },
+  {
+    "id": "PRJ-2024-104",
+    "title": "Pipeline Reinforcement Phase I",
+    "client": "Calyum Chemcals Industries",
+    "status": "Ongoing",
+    "budget": "₹84 Lakhs",
+    "location": "Karnataka, India",
+    "startDate": "2024-01-17",
+    "progress": "50%",
+    "summary": "Comprehensive pipeline reinforcement for Calyum Chemcals Industries."
+  },
+  {
+    "id": "PRJ-2023-105",
+    "title": "Silo Construction Phase I",
+    "client": "Krishana rice",
+    "status": "Pending Approval",
+    "budget": "₹70 Lakhs",
+    "location": "Karnataka, India",
+    "startDate": "2023-02-12",
+    "progress": "0%",
+    "summary": "Comprehensive silo construction for Krishana rice."
+  },
+  {
+    "id": "PRJ-2024-106",
+    "title": "Silo Construction Phase II",
+    "client": "Mahakali Enterprises",
+    "status": "Completed",
+    "budget": "₹1.46 Cr",
+    "location": "Rajasthan, India",
+    "startDate": "2024-06-28",
+    "progress": "100%",
+    "summary": "Comprehensive silo construction for Mahakali Enterprises."
+  },
+  {
+    "id": "PRJ-2023-107",
+    "title": "Solar Grid Setup Phase III",
+    "client": "Ayesha E Tech Solution Private Limited",
+    "status": "Completed",
+    "budget": "₹75 Lakhs",
+    "location": "Rajasthan, India",
+    "startDate": "2023-05-13",
+    "progress": "100%",
+    "summary": "Comprehensive solar grid setup for Ayesha E Tech Solution Private Limited."
+  },
+  {
+    "id": "PRJ-2024-108",
+    "title": "Solar Grid Setup Phase III",
+    "client": "Ebiozone",
+    "status": "In Review",
+    "budget": "₹1.45 Cr",
+    "location": "Maharashtra, India",
+    "startDate": "2024-04-16",
+    "progress": "25%",
+    "summary": "Comprehensive solar grid setup for Ebiozone."
+  },
+  {
+    "id": "PRJ-2023-109",
+    "title": "Silo Construction Phase II",
+    "client": "forzdar Enterprises",
+    "status": "Ongoing",
+    "budget": "₹86 Lakhs",
+    "location": "Telangana, India",
+    "startDate": "2023-03-21",
+    "progress": "40%",
+    "summary": "Comprehensive silo construction for forzdar Enterprises."
+  },
+  {
+    "id": "PRJ-2024-110",
+    "title": "Silo Construction Phase I",
+    "client": "Balaji infra",
+    "status": "Pending Approval",
+    "budget": "₹1.2 Cr",
+    "location": "Tamil Nadu, India",
+    "startDate": "2024-01-23",
+    "progress": "0%",
+    "summary": "Comprehensive silo construction for Balaji infra."
+  },
+  {
+    "id": "PRJ-2023-111",
+    "title": "Infrastructure Upgrade Phase III",
+    "client": "Venkateshwara Infracon",
+    "status": "In Review",
+    "budget": "₹1.48 Cr",
+    "location": "Tamil Nadu, India",
+    "startDate": "2023-05-17",
+    "progress": "80%",
+    "summary": "Comprehensive infrastructure upgrade for Venkateshwara Infracon."
+  },
+  {
+    "id": "PRJ-2024-112",
+    "title": "Pipeline Reinforcement Phase III",
+    "client": "Rajputs Buildwell",
+    "status": "In Review",
+    "budget": "₹82 Lakhs",
+    "location": "Karnataka, India",
+    "startDate": "2024-04-19",
+    "progress": "80%",
+    "summary": "Comprehensive pipeline reinforcement for Rajputs Buildwell."
+  },
+  {
+    "id": "PRJ-2023-113",
+    "title": "Solar Grid Setup Phase I",
+    "client": "Tata Projects Limited",
+    "status": "Completed",
+    "budget": "₹1.1 Cr",
+    "location": "Karnataka, India",
+    "startDate": "2023-01-10",
+    "progress": "100%",
+    "summary": "Comprehensive solar grid setup for Tata Projects Limited."
+  },
+  {
+    "id": "PRJ-2024-114",
+    "title": "Solar Grid Setup Phase III",
+    "client": "Larsen & Toubro Hub",
+    "status": "Pending Approval",
+    "budget": "₹60 Lakhs",
+    "location": "Karnataka, India",
+    "startDate": "2024-03-19",
+    "progress": "0%",
+    "summary": "Comprehensive solar grid setup for Larsen & Toubro Hub."
+  },
+  {
+    "id": "PRJ-2023-115",
+    "title": "Silo Construction Phase I",
+    "client": "Adani Core Infrastructure",
+    "status": "Completed",
+    "budget": "₹81 Lakhs",
+    "location": "Odisha, India",
+    "startDate": "2023-04-24",
+    "progress": "100%",
+    "summary": "Comprehensive silo construction for Adani Core Infrastructure."
+  },
+  {
+    "id": "PRJ-2024-116",
+    "title": "Infrastructure Upgrade Phase III",
+    "client": "Reliance Petroleum Refinery",
+    "status": "Pending Approval",
+    "budget": "₹89 Lakhs",
+    "location": "Karnataka, India",
+    "startDate": "2024-05-17",
+    "progress": "0%",
+    "summary": "Comprehensive infrastructure upgrade for Reliance Petroleum Refinery."
+  },
+  {
+    "id": "PRJ-2023-117",
+    "title": "Earthmoving Operations Phase II",
+    "client": "Hindalco Extrusions",
+    "status": "Pending Approval",
+    "budget": "₹1.3 Cr",
+    "location": "Tamil Nadu, India",
+    "startDate": "2023-03-18",
+    "progress": "0%",
+    "summary": "Comprehensive earthmoving operations for Hindalco Extrusions."
+  },
+  {
+    "id": "PRJ-2024-118",
+    "title": "Pipeline Reinforcement Phase III",
+    "client": "srs Enterprises",
+    "status": "Ongoing",
+    "budget": "₹1.23 Cr",
+    "location": "Telangana, India",
+    "startDate": "2024-06-15",
+    "progress": "25%",
+    "summary": "Comprehensive pipeline reinforcement for srs Enterprises."
+  },
+  {
+    "id": "PRJ-2023-119",
+    "title": "Earthmoving Operations Phase II",
+    "client": "Akrita infa",
+    "status": "Completed",
+    "budget": "₹1 Cr",
+    "location": "Delhi NCR",
+    "startDate": "2023-09-17",
+    "progress": "100%",
+    "summary": "Comprehensive earthmoving operations for Akrita infa."
+  }
+]

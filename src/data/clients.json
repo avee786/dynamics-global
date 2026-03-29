@@ -1,0 +1,9 @@
+[
+  {
+    "email": "test@client.com",
+    "company": "Test Corp",
+    "name": "John Doe",
+    "role": "client",
+    "joined": "2023-05-15"
+  }
+]

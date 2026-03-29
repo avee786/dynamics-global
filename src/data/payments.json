@@ -1,0 +1,34 @@
+[
+  {
+    "id": "PAY-101",
+    "projectId": "PRJ-2022-001",
+    "amount": "₹32,00,00,000",
+    "status": "Paid",
+    "date": "2022-05-15",
+    "description": "Mobilization Fee"
+  },
+  {
+    "id": "PAY-102",
+    "projectId": "PRJ-2022-001",
+    "amount": "₹68,00,00,000",
+    "status": "Paid",
+    "date": "2023-01-10",
+    "description": "Final Milestone Settlement"
+  },
+  {
+    "id": "PAY-201",
+    "projectId": "PRJ-2024-006",
+    "amount": "₹120,00,00,000",
+    "status": "Paid",
+    "date": "2024-02-01",
+    "description": "Initial Equipment Deployment"
+  },
+  {
+    "id": "PAY-202",
+    "projectId": "PRJ-2024-006",
+    "amount": "₹40,00,00,000",
+    "status": "Pending",
+    "date": "2024-11-15",
+    "description": "Q3 Operational Invoice"
+  }
+]
