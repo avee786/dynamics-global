@@ -19,26 +19,42 @@ export default function AdminLogin() {
     setIsLoading(true);
     setError('');
     
+    // Create a controller to abort the fetch if it takes too long
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
     try {
+      console.log(">>> Sending login request for:", username);
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
+        signal: controller.signal
       });
       
+      clearTimeout(timeoutId);
+      console.log(">>> Response status:", res.status);
       const data = await res.json();
 
       if (data.success) {
+        console.log(">>> Login success! Redirecting...");
+        // Store JWT token + auth flag
         localStorage.setItem('isLoggedIn', 'true');
+        if (data.token) localStorage.setItem('token', data.token);
         router.push('/admin');
       } else {
         setIsLoading(false);
-        setError(data.message?.toUpperCase() || 'ACCESS DENIED: INVALID CREDENTIALS');
+        setError(data.message?.toUpperCase() || 'ACCESS DENIED: CONTACT COMMAND CENTER');
       }
-    } catch(err) {
-      console.error("Admin Login Fetch Error", err);
+    } catch(err: any) {
+      clearTimeout(timeoutId);
+      console.error("Admin Login Error:", err);
       setIsLoading(false);
-      setError('SYSTEM ERROR: UNABLE TO CONNECT TO SECURITY LAYER');
+      if (err.name === 'AbortError') {
+        setError('CONNECTION TIMEOUT: DATABASE RESPONSE DELAYED');
+      } else {
+        setError('SYSTEM ERROR: UNABLE TO CONTACT SECURITY GATEWAY');
+      }
     }
   };
 
@@ -104,9 +120,22 @@ export default function AdminLogin() {
 
            {error && <p className="text-xs font-black text-red-500 uppercase tracking-widest text-center animate-pulse">{error}</p>}
 
-           <button type="submit" className="btn-primary w-full justify-center group">
-              INITIALIZE INTERFACE <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-all" />
-           </button>
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="btn-primary w-full justify-center group disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+               {isLoading ? (
+                 <>
+                   <span className="w-5 h-5 border-2 border-primary-deep/30 border-t-primary-deep rounded-full animate-spin mr-2" />
+                   INITIALIZING...
+                 </>
+               ) : (
+                 <>
+                   INITIALIZE INTERFACE <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-all" />
+                 </>
+               )}
+            </button>
         </form>
 
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col items-center gap-4 text-center">

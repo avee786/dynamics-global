@@ -24,7 +24,10 @@ import {
   XCircle,
   CreditCard,
   BarChart,
-  Activity
+  Activity,
+  Send,
+  Shield,
+  MapPin
 } from 'lucide-react';
 import Link from 'next/link';
 import { clsx, type ClassValue } from 'clsx';
@@ -42,6 +45,20 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('projects');
   const [editingProject, setEditingProject] = useState<any>(null);
+  
+  // Deployment Modal State
+  const [isDeployModalOpen, setIsDeployModalOpen] = useState(false);
+  const [deployRequest, setDeployRequest] = useState<any>(null);
+  const [deployForm, setDeployForm] = useState({
+    budget: '',
+    scope: '',
+    milestones: [
+      { desc: 'Project Initiation & Mobilisation', pct: '30%', status: 'Due on Signing' },
+      { desc: 'Mid-Phase Completion', pct: '40%', status: 'Due at Milestone' },
+      { desc: 'Final Delivery & Handover', pct: '30%', status: 'Due on Completion' }
+    ]
+  });
+
   const router = useRouter();
 
   useEffect(() => {
@@ -73,39 +90,64 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleApprove = async (request: any) => {
-    const newProject = {
-      id: `PRJ-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`,
-      title: `${request.projectType || request.industry} - ${request.companyName}`,
-      client: request.companyName,
-      status: 'Ongoing',
-      budget: request.budgetRange,
-      location: request.siteLocation || 'GLOBAL Hub',
-      startDate: new Date().toISOString().split('T')[0],
-      progress: '5%',
-      summary: request.workDescription || request.description,
-      duration: request.timeline
-    };
+  const openDeployModal = (request: any) => {
+    setDeployRequest(request);
+    setDeployForm({
+       budget: request.budgetRange || '',
+       scope: request.workDescription || request.description || '',
+       milestones: [
+          { desc: 'Project Initiation & Mobilisation', pct: '30%', status: 'Due on Signing' },
+          { desc: 'Mid-Phase Completion', pct: '40%', status: 'Due at Milestone' },
+          { desc: 'Final Delivery & Handover', pct: '30%', status: 'Due on Completion' }
+       ]
+    });
+    setIsDeployModalOpen(true);
+  };
 
-    try {
-      // 1. Add to projects
-      await fetch('/api/data/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProject)
-      });
-      
-      // 2. Remove from requests (In a real app, update status to 'Approved')
-      await fetch('/api/data/requests', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: request.id, updates: { status: 'Approved' } })
-      });
+  const finalizeDeployment = async () => {
+     if (!deployRequest) return;
+     setLoading(true);
+     
+     const newProject = {
+       id: `PRJ-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`,
+       title: `${deployRequest.projectType || deployRequest.industry} - ${deployRequest.companyName}`,
+       client: deployRequest.companyName,
+       status: 'Ongoing',
+       budget: deployForm.budget,
+       location: deployRequest.siteLocation || 'GLOBAL Hub',
+       startDate: new Date().toISOString().split('T')[0],
+       progress: '5%',
+       summary: deployForm.scope,
+       duration: deployRequest.timeline,
+       milestones: deployForm.milestones
+     };
 
-      fetchData();
-    } catch (err) {
-      alert('Approval failed');
-    }
+     try {
+       // 1. Add to projects
+       await fetch('/api/data/projects', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(newProject)
+       });
+       
+       // 2. Remove from requests (Update status to 'Approved')
+       await fetch('/api/data/requests', {
+         method: 'PATCH',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ id: deployRequest.id, updates: { status: 'Approved' } })
+       });
+
+       setIsDeployModalOpen(false);
+       await fetchData();
+       
+       // Trigger PDF generation
+       generatePDF(newProject);
+     } catch (err) {
+       console.error('Deployment failed:', err);
+       alert('Deployment failed');
+     } finally {
+       setLoading(false);
+     }
   };
 
   const handleReject = async (request: any) => {
@@ -419,7 +461,7 @@ export default function AdminDashboard() {
 
                     <div className="col-span-12 md:col-span-2 flex flex-col justify-end gap-4 relative z-10">
                       <button 
-                        onClick={() => handleApprove(req)}
+                        onClick={() => openDeployModal(req)}
                         className="btn-primary py-4 px-6 text-[10px] tracking-[0.3em] font-black uppercase whitespace-nowrap shadow-2xl rounded-2xl justify-center"
                       >
                          DEPLOY PROJECT
@@ -442,6 +484,130 @@ export default function AdminDashboard() {
           )}
         </AnimatePresence>
       </section>
+
+      {/* Deployment Modal */}
+      <AnimatePresence>
+        {isDeployModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDeployModalOpen(false)}
+              className="absolute inset-0 bg-primary-deep/90 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              className="glass-panel w-full max-w-4xl p-12 border-l-4 border-accent-amber relative z-10 max-h-[90vh] overflow-y-auto"
+            >
+               <div className="flex justify-between items-start mb-12">
+                  <div>
+                    <h2 className="text-4xl font-black tracking-tighter uppercase italic">Finalize <span className="text-accent-amber">Agreement</span></h2>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-2 border-l-2 border-accent-amber pl-4">Review mission parameters before mobilization</p>
+                  </div>
+                  <button 
+                    onClick={() => setIsDeployModalOpen(false)}
+                    className="p-3 bg-white/5 hover:bg-white/10 rounded-full transition-all"
+                  >
+                    <XCircle size={24} className="text-slate-400" />
+                  </button>
+               </div>
+
+               <div className="grid grid-cols-12 gap-12">
+                  <div className="col-span-12 md:col-span-8 space-y-10">
+                     <div className="space-y-4">
+                        <label className="text-[10px] font-black text-accent-amber uppercase tracking-widest block">Operational Scope of Work</label>
+                        <textarea 
+                          value={deployForm.scope}
+                          onChange={(e) => setDeployForm({...deployForm, scope: e.target.value})}
+                          rows={6}
+                          className="input-field min-h-[150px] resize-none text-sm font-medium leading-relaxed"
+                          placeholder="Detailed mission description..."
+                        />
+                     </div>
+
+                     <div className="space-y-6">
+                        <label className="text-[10px] font-black text-accent-amber uppercase tracking-widest block">Strategic Payment Milestones</label>
+                        {deployForm.milestones.map((m, idx) => (
+                           <div key={idx} className="flex gap-4 items-center bg-white/5 p-4 rounded-xl border border-white/5">
+                              <div className="flex-1">
+                                 <input 
+                                   value={m.desc}
+                                   onChange={(e) => {
+                                      const newM = [...deployForm.milestones];
+                                      newM[idx].desc = e.target.value;
+                                      setDeployForm({...deployForm, milestones: newM});
+                                   }}
+                                   className="bg-transparent border-none text-[10px] font-bold text-white w-full uppercase"
+                                 />
+                                 <input 
+                                   value={m.status}
+                                   onChange={(e) => {
+                                      const newM = [...deployForm.milestones];
+                                      newM[idx].status = e.target.value;
+                                      setDeployForm({...deployForm, milestones: newM});
+                                   }}
+                                   className="bg-transparent border-none text-[8px] font-black text-slate-500 w-full uppercase tracking-tighter"
+                                 />
+                              </div>
+                              <input 
+                                value={m.pct}
+                                onChange={(e) => {
+                                   const newM = [...deployForm.milestones];
+                                   newM[idx].pct = e.target.value;
+                                   setDeployForm({...deployForm, milestones: newM});
+                                }}
+                                className="w-16 bg-accent-amber/10 border border-accent-amber/20 text-accent-amber text-center font-black rounded p-2"
+                              />
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+
+                  <div className="col-span-12 md:col-span-4 space-y-8">
+                     <div className="bg-white/5 p-8 rounded-2xl border border-white/5 space-y-6">
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Client Identity</label>
+                           <p className="text-xl font-black text-white italic">{deployRequest?.companyName}</p>
+                        </div>
+                        <div className="space-y-2 border-t border-white/5 pt-6">
+                           <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Project Budget (LTSC)</label>
+                           <div className="relative">
+                              <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 text-accent-amber" size={20} />
+                              <input 
+                                value={deployForm.budget}
+                                onChange={(e) => setDeployForm({...deployForm, budget: e.target.value})}
+                                className="input-field pl-12 text-2xl font-black text-accent-amber italic"
+                              />
+                           </div>
+                        </div>
+                        <div className="space-y-4 border-t border-white/5 pt-6">
+                           <div className="flex items-center gap-3 text-slate-400">
+                             <MapPin size={16} /> <span className="text-[10px] font-bold uppercase">{deployRequest?.siteLocation}</span>
+                           </div>
+                           <div className="flex items-center gap-3 text-slate-400">
+                             <Clock size={16} /> <span className="text-[10px] font-bold uppercase">{deployRequest?.timeline}</span>
+                           </div>
+                        </div>
+                     </div>
+
+                     <button 
+                       onClick={finalizeDeployment}
+                       className="btn-primary w-full py-6 group justify-center text-sm"
+                     >
+                        FINALIZE & DEPLOY <Send size={20} className="ml-3 group-hover:translate-x-2 transition-all" />
+                     </button>
+                     <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest text-center mt-4">
+                        Proceeding will generate a legally binding PDF agreement and establish project tracking.
+                     </p>
+                  </div>
+               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

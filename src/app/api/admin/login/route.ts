@@ -5,9 +5,13 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "@/utils/auth";
 
 export async function POST(req: Request) {
+  console.log(">>> ADMIN LOGIN ATTEMPT RECEIVED");
   try {
+    console.log(">>> Connecting to DB...");
     await connectDB();
+    console.log(">>> DB Connected. Parsing request body...");
     const { username, password } = await req.json();
+    console.log(`>>> Username: ${username}`);
 
     if (!username || !password) {
       return NextResponse.json({ success: false, message: "Username and password are required" }, { status: 400 });

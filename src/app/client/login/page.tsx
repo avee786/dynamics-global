@@ -13,39 +13,54 @@ export default function ClientLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    const handleLogin = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsLoading(true);
+      setError('');
 
-    if (email && password) {
-      try {
-        const res = await fetch('/api/client/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
+      if (email && password) {
+        // Create a controller to abort the fetch if it takes too long
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
-        const data = await res.json();
+        try {
+          const res = await fetch('/api/client/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+            signal: controller.signal
+          });
 
-        if (data.success) {
-          localStorage.setItem('isClientLoggedIn', 'true');
-          localStorage.setItem('clientEmail', email);
-          router.push('/client/dashboard');
-        } else {
+          clearTimeout(timeoutId);
+          const data = await res.json();
+
+          if (data.success) {
+            // Store JWT + session info from API
+            localStorage.setItem('isClientLoggedIn', 'true');
+            localStorage.setItem('clientEmail', data.client?.email || email);
+            localStorage.setItem('clientName', data.client?.name || '');
+            localStorage.setItem('clientCompany', data.client?.company || '');
+            if (data.token) localStorage.setItem('token', data.token);
+            router.push('/client/dashboard');
+          } else {
+            setIsLoading(false);
+            setError(data.message?.toUpperCase() || 'ACCESS DENIED: INVALID CREDENTIALS');
+          }
+        } catch (err: any) {
+          clearTimeout(timeoutId);
+          console.error("Login Error:", err);
           setIsLoading(false);
-          setError(data.message?.toUpperCase() || 'ACCESS DENIED: INVALID CREDENTIALS');
+          if (err.name === 'AbortError') {
+            setError('CONNECTION TIMEOUT: DATABASE RESPONSE DELAYED');
+          } else {
+            setError('SERVER CONNECTION FAILED');
+          }
         }
-      } catch (err) {
-        console.error("Login Error:", err);
+      } else {
         setIsLoading(false);
-        setError('SERVER CONNECTION FAILED');
+        setError('ACCESS DENIED: MISSING INPUT');
       }
-    } else {
-      setIsLoading(false);
-      setError('ACCESS DENIED: MISSING INPUT');
-    }
-  };
+    };
 
   return (
     <main className="min-h-screen bg-primary-deep flex items-center justify-center p-8 relative overflow-hidden">

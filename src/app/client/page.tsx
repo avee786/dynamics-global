@@ -29,7 +29,6 @@ import {
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { generateProfessionalContract } from '../../utils/pdfGenerator';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -312,7 +311,30 @@ export default function ClientDashboard() {
 
                            <div className="space-y-4 pt-16">
                               <button 
-                                 onClick={() => generateProfessionalContract(p)}
+                                 onClick={async () => {
+                                   try {
+                                     const resp = await fetch('/api/generate-pdf', {
+                                       method: 'POST',
+                                       headers: {
+                                         'Content-Type': 'application/json',
+                                         'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+                                       },
+                                       body: JSON.stringify({ projectId: p._id || p.id })
+                                     });
+                                     if (!resp.ok) throw new Error('PDF generation failed');
+                                     const blob = await resp.blob();
+                                     const url = window.URL.createObjectURL(blob);
+                                     const link = document.createElement('a');
+                                     link.href = url;
+                                     link.setAttribute('download', `DG_Contract_${p._id || p.id}.pdf`);
+                                     document.body.appendChild(link);
+                                     link.click();
+                                     link.parentNode?.removeChild(link);
+                                     window.URL.revokeObjectURL(url);
+                                   } catch (e) {
+                                     alert('Unable to download contract. Please try again.');
+                                   }
+                                 }}
                                  className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl font-black text-[9px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:text-accent-amber hover:bg-accent-amber/5 transition-all group/btn"
                               >
                                  DOWNLOAD CONTRACT <Download size={16} className="group-hover/btn:translate-y-0.5 transition-transform" />
