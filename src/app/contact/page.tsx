@@ -304,7 +304,7 @@ export default function ContactPage() {
                     <label className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-500">Phone Number</label>
                     <input
                       type="tel" name="phone" value={form.phone} onChange={handleChange}
-                      placeholder="+91 XXXXX XXXXX"
+                      placeholder="+91 99500 94707"
                       className="input-field w-full"
                     />
                   </div>
