@@ -112,24 +112,34 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="px-5 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 transition-all flex items-center gap-2"
+                  className="flex items-center gap-3 group focus:outline-none"
                 >
-                  <UserCircle size={14} className="text-accent-amber" />
-                  <span className="max-w-[100px] truncate">{clientEmail.split('@')[0]}</span>
-                  <ChevronDown size={12} className={cn("transition-transform", showDropdown && "rotate-180")} />
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-amber to-orange-500 flex items-center justify-center font-black text-primary-deep text-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] group-hover:scale-105 transition-transform border-2 border-white/10 group-hover:border-accent-amber/50">
+                      {clientEmail ? clientEmail.charAt(0).toUpperCase() : 'C'}
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-primary-deep rounded-full shadow-lg" />
+                  </div>
+                  <ChevronDown size={14} className={cn("text-slate-500 transition-transform hidden sm:block", showDropdown && "rotate-180")} />
                 </button>
+                
                 <AnimatePresence>
                   {showDropdown && (
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-3 w-52 glass-panel p-2 shadow-2xl z-[1001] bg-primary-deep/95 backdrop-blur-3xl border-white/10"
+                      className="absolute right-0 mt-4 w-60 glass-panel p-2 shadow-2xl z-[1001] bg-primary-deep/95 backdrop-blur-3xl border border-white/10 overflow-hidden"
                     >
-                      <Link href="/client/dashboard" onClick={() => setShowDropdown(false)} className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
+                      <div className="px-4 py-3 border-b border-white/5 mb-2">
+                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Authenticated User</p>
+                        <p className="text-[11px] font-black text-white truncate">{clientEmail}</p>
+                      </div>
+                      
+                      <Link href="/client" onClick={() => setShowDropdown(false)} className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
                         <LayoutDashboard size={14} /> My Dashboard
                       </Link>
-                      <Link href="/client/dashboard#projects" onClick={() => setShowDropdown(false)} className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
+                      <Link href="/client#projects" onClick={() => setShowDropdown(false)} className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
                         <FolderCheck size={14} /> Active Projects
                       </Link>
                       <div className="h-px bg-white/5 my-2" />
@@ -212,7 +222,7 @@ export default function Navbar() {
 
                 {isClientLoggedIn ? (
                   <>
-                    <Link href="/client/dashboard" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 w-full px-5 py-4 rounded-xl text-sm font-black uppercase tracking-widest text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+                    <Link href="/client" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 w-full px-5 py-4 rounded-xl text-sm font-black uppercase tracking-widest text-slate-300 hover:text-white hover:bg-white/5 transition-all">
                       <LayoutDashboard size={16} className="text-accent-amber" /> My Dashboard
                     </Link>
                     <button onClick={handleLogout} className="flex items-center gap-3 w-full px-5 py-4 rounded-xl text-sm font-black uppercase tracking-widest text-red-400 hover:text-red-500 hover:bg-red-500/5 transition-all">

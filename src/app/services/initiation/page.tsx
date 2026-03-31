@@ -141,7 +141,7 @@ function InitiationFormContent() {
             Our regional evaluation board will review the documentation within 12 business hours.
           </p>
           <div className="flex gap-4 justify-center">
-             <button onClick={() => router.push('/client/dashboard')} className="btn-primary">
+             <button onClick={() => router.push('/client')} className="btn-primary">
                 VIEW SUBMISSION STATUS
              </button>
              <button onClick={() => router.push('/')} className="px-8 py-4 bg-white/5 border border-white/10 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">

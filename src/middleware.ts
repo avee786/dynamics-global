@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 // Routes that require admin role
 const ADMIN_ROUTES = ['/admin'];
 // Routes that require client role
-const CLIENT_ROUTES = ['/client/dashboard'];
+const CLIENT_ROUTES = ['/client'];
 // Public routes (never redirect)
 const PUBLIC_ROUTES = ['/admin/login', '/client/login', '/client/register'];
 
@@ -32,7 +32,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Protect /client/dashboard
+  // Protect /client
   if (CLIENT_ROUTES.some(r => pathname.startsWith(r))) {
     if (!token) {
       return NextResponse.redirect(new URL('/client/login', request.url));

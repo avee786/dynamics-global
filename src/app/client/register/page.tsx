@@ -38,7 +38,7 @@ export default function RegisterPage() {
         localStorage.setItem('isClientLoggedIn', 'true');
         localStorage.setItem('clientEmail', formData.email);
         localStorage.setItem('clientCompany', formData.company);
-        router.push('/client/dashboard');
+        router.push('/client');
       } else {
         alert(`Registration failed: ${data.message}`);
       }

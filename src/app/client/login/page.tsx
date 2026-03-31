@@ -41,7 +41,7 @@ export default function ClientLogin() {
             localStorage.setItem('clientName', data.client?.name || '');
             localStorage.setItem('clientCompany', data.client?.company || '');
             if (data.token) localStorage.setItem('token', data.token);
-            router.push('/client/dashboard');
+            router.push('/client');
           } else {
             setIsLoading(false);
             setError(data.message?.toUpperCase() || 'ACCESS DENIED: INVALID CREDENTIALS');

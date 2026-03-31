@@ -48,11 +48,11 @@ export default function ContactPage() {
     {
       icon: Phone,
       label: 'Direct Line',
-      value: '+91 98XXX XXXXX',
+      value: '+91 99500 94707',
       sub: 'Mon–Sat, 9AM–7PM IST',
       color: 'text-emerald-400',
       bg: 'bg-emerald-400/10',
-      href: 'tel:+919800000000',
+      href: 'tel:+919950094707',
     },
     {
       icon: Globe,
