@@ -22,9 +22,27 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1500)); // Simulate send
-    setSubmitted(true);
-    setLoading(false);
+    
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        alert(data.message || 'Transmission failed. Contact HQ directly.');
+      }
+    } catch (err) {
+      console.error('Contact Form Error:', err);
+      alert('System Error: Unable to reach security gateway.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const contactPoints = [
