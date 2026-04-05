@@ -18,8 +18,12 @@ export async function POST(req: Request) {
     }
 
     // Find admin in DB
+    console.log(`>>> [AUTH] Querying for user: ${username}`);
     const admin = await Admin.findOne({ username });
+    console.log(`>>> [AUTH] Admin found: ${!!admin}`);
+    
     if (!admin) {
+      console.warn(`>>> [AUTH] User not found: ${username}`);
       return NextResponse.json({ success: false, message: "Invalid credentials" }, { status: 401 });
     }
 

@@ -21,7 +21,10 @@ export default function AdminLogin() {
     
     // Create a controller to abort the fetch if it takes too long
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+    const timeoutId = setTimeout(() => {
+      console.warn(">>> [LOGIN] Fetch timed out after 60s");
+      controller.abort();
+    }, 60000); // 60 second timeout
 
     try {
       console.log(">>> Sending login request for:", username);

@@ -29,11 +29,12 @@ export async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false, // best practice for Next.js models
+      serverSelectionTimeoutMS: 20000, // 20 second timeout
     };
 
-    // Important: Mongoose will attempt to connect using the URI.
-    // If your password has special characters (@, :, /, etc.), they MUST be URL encoded (e.g., @ becomes %40).
+    console.log(">>> [DB] Initiating new connection attempt...");
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+      console.log(">>> [DB] Connection promise resolved.");
       return mongooseInstance;
     });
   }
